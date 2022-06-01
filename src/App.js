@@ -1,3 +1,4 @@
+import React,{useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -19,6 +20,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Counter></Counter>
+        <Users></Users>
        <ul>
          {
            nayoks.map(nayok=> <li>{nayok}</li>)
@@ -40,6 +43,34 @@ function App() {
       </header>
     </div>
   );
+}
+function Counter(){
+  const [count,setCount]=useState(0);
+  return (
+    <div>
+      <h1>Count:{count}</h1>
+      <button onClick={()=>setCount(count-1)}>Decrease</button>
+      <button onClick={()=>setCount(count+1)}>Increase</button>
+    </div>
+  )
+}
+function Users(){
+  const [users,setUsers]=useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res=>res.json())
+    .then(data=>setUsers(data));
+  },[])
+  return(
+  <div>
+   <h1>Dynamic Users:{users.length}</h1>
+   <ul>
+     {
+      users.map(user=><li>{user.email}</li>)
+     }
+   </ul>
+  </div>
+  )
 }
 function Friend(props){
   const friendStyle={
